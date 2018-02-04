@@ -1,0 +1,1207 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600');
+
+/*Colors*/
+
+$brand-color: #F0433A;
+$brand-color-dark: #a73737;
+
+$light-grey: #f8f8f8;
+$dark-grey: #eee;
+$white: #fff;
+
+$scrollbar-color: #999999;
+
+$local-message-color: #ffcac9;
+$foreign-message-color: $light-grey;
+
+$message-read-text-color: $brand-color;
+
+$selected-image-color: rgba(0, 0, 0, 0.3);
+
+/*Typography*/
+
+$text-light: #6e7480;
+$text-dark: #484c55;
+$text-black: #222;
+
+$light-icon: #9c9c9c;
+$dark-icon: #757575;
+
+$brand-font: 'Source Sans Pro', sans-serif;
+
+$icon-font-size: 1.6em;
+$panel-title-font-size: 1.5em;
+
+$user-new-message-font-size: .7em;
+
+$slider-input-font-size: 1.3em;
+
+$splash-name-font-size: 4em;
+
+$chat-textbox-font-size: 1.3em;
+$chat-action-button-font-size: 1.3em;
+
+$message-text-font-size-desktop: 1.1em;
+$message-timestamp-font-size-desktop: .8em;
+$message-text-font-size-mobile: .8em;
+$message-timestamp-font-size-mobile: .6em;
+
+$brand-line-font-size: 3em;
+
+$log-selector-font-size: 1.4em;
+
+$log-label-font-size: 1.2em;
+
+$log-tip-font-size: .9em;
+
+$selected-image-font-size: 5em;
+
+$settings-panel-font-size: 1.4em;
+
+/*Miscelaneous*/
+
+$lighter-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);
+$light-box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, 0.2);
+
+$light-border-radius: 2px;
+$regular-border-radius: 5px;
+
+$light-border: 1px solid $dark-grey;
+
+$light-padding: 3px;
+$regular-padding: 5px;
+$strong-padding: 10px;
+$stronger-padding: 20px;
+
+$light-margin: 3px;
+$regular-margin: 5px;
+$strong-margin: 10px;
+
+$light-transition: .1s ease;
+
+$regular-transtition: .3s ease;
+
+$message-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.2);
+
+$regular-text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+
+/*Widths and heights*/
+
+$app-wrapper-gradient-height: 133px;
+
+$main-panel-desktop-height: 95%;
+$main-panel-desktop-max-width: 1100px;
+$main-panel-tablet-height: 100%;
+$main-panel-tablet-width: 100%;
+
+$sidebar-desktop-width: 400px;
+$sidebar-table-width: 30%;
+$sidebar-header-height: 60px;
+
+$client-picture-width: 50px;
+$client-picture-height: 50px;
+
+$user-item-height: 75px;
+
+$user-item-picture-height: 50px;
+$user-item-picture-width: 50px;
+
+$user-new-message-height: 20px;
+$user-new-message-width: 20px;
+
+$slider-client-picture-height: 200px;
+$slider-client-picture-width: 200px;
+
+$slider-modify-button-width: 30px;
+
+$hor-scroll-height: 100px;
+
+$signout-row-height: 35px;
+
+$chat-wrapper-desktop-width: 700px;
+$chat-wrapper-tablet-width: 70%;
+$chat-header-height: $sidebar-header-height;
+
+$chat-input-height: $chat-header-height;
+$chat-input-height-mobile: 45px;
+
+$splash-logo-height: 100px;
+$splash-logo-width: 100px;
+
+$action-button-width: 45px;
+$action-button-height: $action-button-width;
+
+$action-button-width-mobile: 35px;
+$action-button-height-mobile: $action-button-width-mobile;
+
+$log-panel-width-desktop: 300px;
+$log-selector-height: 50px;
+$log-selector-height-mobile: 50px;
+
+/*Media queries*/
+
+$tablet: "only screen and (max-width : 1150px)";
+$mobile: "only screen and (max-width : 800px)";
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: $brand-font;
+}
+
+.app-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background: linear-gradient(to bottom, $brand-color-dark 0%, $brand-color-dark $app-wrapper-gradient-height, $dark-grey $app-wrapper-gradient-height);*/
+    /*background-image: url(https://wallpaperscraft.com/image/giau_pass_italy_alps_118374_3840x2400.jpg);*/
+    background-size: cover;
+    background-position: 50% 50%;
+    width: 100%;
+    height: 100%;
+    color: $text-dark;
+}
+
+#app{
+    @media #{$tablet}{
+        width: 100%;
+        height: 100%;
+    }
+
+    .background-image{
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: 50% 50%;
+        background-image: url(https://wallpaperscraft.com/image/giau_pass_italy_alps_118374_3840x2400.jpg);
+        z-index: -1;
+        transition: background-image 0.5s ease-in-out;
+    }
+}
+
+.main-panel{
+    display: flex;
+    flex-direction: row;
+
+    box-shadow: $light-box-shadow;
+
+    height: $main-panel-desktop-height;
+    max-width: $main-panel-desktop-max-width;
+
+    border-radius: $light-border-radius;
+
+    overflow: hidden;
+
+    z-index: 1;
+
+    @media #{$tablet}{
+        max-width: none;
+        height: $main-panel-tablet-height;
+        width: $main-panel-tablet-width;
+    }
+
+    @media #{$mobile}{
+        display: block;
+    }
+
+    .sidebar{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: $sidebar-desktop-width;
+        background-color: $white;
+
+        @media #{$tablet}{
+            width: $sidebar-table-width;
+        }
+
+        @media #{$mobile}{   
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0%;
+
+            transition: $regular-transtition;
+
+            &.hidden{
+                left: -100%;
+            }
+        }
+
+        .sidebar-header{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            min-height: $sidebar-header-height;
+
+            background-color: $light-grey;
+
+            padding: $regular-padding;
+
+            border-bottom: $light-border;
+
+            justify-content: space-between;
+            border-right: $light-border;
+
+            .item{
+                display: flex;
+                flex-direction: row;
+
+                .client-picture{
+                    height: $client-picture-height;
+                    width: $client-picture-width;
+                    background-size: cover;
+                    background-position: 50% 50%;
+                    border-radius: $client-picture-height;
+                }
+    
+                .client-body{
+                    display: flex;
+                    flex-direction: column;
+                    margin-left: $strong-margin;
+                    justify-content: center;
+    
+                    .client-name{
+                        font-weight: 600;
+                    }
+    
+                    .client-about{
+    
+                    }
+                }
+    
+                .client-modify{
+                    position: relative;
+                    color: $light-icon;
+                    right: 6px;
+                    font-size: $icon-font-size;
+                    margin-left: $light-margin;
+
+                    &:hover{
+                        cursor: pointer;
+                        color: $dark-icon;
+                    }
+                }
+            }            
+        }
+
+        .sidebar-body{
+
+            .user-list{
+                display: flex;
+                flex-direction: column;
+                overflow-y: auto;
+                max-height: calc(100% - #{$sidebar-header-height});
+
+                .user-item{
+                    position: relative;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    min-height: $user-item-height;
+
+                    border-bottom: $light-border;
+                    padding: $regular-padding;
+
+                    transition: $light-transition;
+
+                    &:hover{
+                        cursor: pointer;
+                        background-color: $light-grey;
+                    }
+
+                    &.selected{
+                        background-color: $dark-grey;
+                    }
+
+                    .user-picture{
+                        height: $user-item-picture-height;
+                        width: $user-item-picture-width;
+                        background-size: cover;
+                        background-position: 50% 50%;
+                        border-radius: $user-item-picture-width;
+                        transition: background-image 0.5s ease-in-out;
+                    }
+
+                    .user-body{
+                        display: flex;
+                        flex-direction: column;
+                        margin-left: $strong-margin;
+
+                        .user-name{
+                            font-weight: 600;
+                        }
+
+                        .user-about{
+
+                        }
+                    }
+
+                    .user-modifiers{
+                        .user-favorite{
+                            font-size: 1.3em;
+                            position: absolute;
+                            right: 12px;
+                            top: 30px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: $brand-color-dark;
+                        }
+                    }
+
+                    .user-new-message{
+                        position: absolute;
+                        right: 14px;
+                        top: 10px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-width: $user-new-message-width;
+                        min-height: $user-new-message-height;
+                        padding: $light-padding;
+                        background-color: $brand-color;
+                        color: $white;
+                        font-size: $user-new-message-font-size;
+                        border-radius: $user-new-message-height;
+                        box-shadow: $lighter-box-shadow;
+                    }
+                }
+            }
+        }
+
+        .sliding-panel{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin-left: -100%;
+            transition: $regular-transtition;
+
+            &.visible{
+                margin-left: 0%;
+            }
+            .sliding-header{
+                display: flex;
+                flex-direction: row;
+                min-height: $sidebar-header-height;
+                background-color: $light-grey;
+                align-items: center;
+                padding: $regular-padding;
+                border-bottom: $light-border;
+                justify-content: space-between;
+                border-right: $light-border;
+
+                .panel-title{
+                    font-size: $panel-title-font-size;
+                    margin: 0 auto;
+                }
+
+                .close-panel{
+                    position: relative;
+                    color: $light-icon;
+                    right: 6px;
+                    font-size: $icon-font-size;
+
+                    margin-left: $light-margin;
+
+                    &:hover{
+                        cursor: pointer;
+                        color: $dark-icon;
+                    }
+                }
+            }
+
+            .sliding-body{
+                position: relative;
+                height: calc(100% - #{$sidebar-header-height});
+                overflow-y: auto;
+                max-height: calc(100% - #{$sidebar-header-height});
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background-color: $light-grey;
+                
+
+                .client-picture{
+                    min-width: $slider-client-picture-width;
+                    min-height: $slider-client-picture-height;
+                    border-radius: $slider-client-picture-height;
+                    background-color: blacK;
+                    background-size: cover;
+                    background-position: 50% 50%;
+                    margin: $strong-margin;
+                    transition: background-image 0.5s ease-in-out;
+                }
+
+                .input-wrapper{
+                    width: 100%;
+                    padding: $strong-padding;
+                    margin-top: $regular-margin;
+                    margin-bottom: $regular-margin;
+                    border-bottom: $light-border;
+
+                    .input-title{
+                        margin-bottom: $strong-margin;
+                        color: $brand-color;
+                    }
+
+                    .input-row{
+                        position: relative;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+
+                        .textbox{
+                            width: calc(100% - #{$slider-modify-button-width});
+                            font-size: $slider-input-font-size;
+                            border: none;
+                            background-color: transparent;
+                            border-bottom: 2px solid transparent;
+                            outline: none;
+
+                            &:focus{
+                                border-bottom: 2px solid $brand-color;
+                            }
+                        }
+
+                        .action-button{
+                            position: absolute;
+                            right: 0px;
+                            width: $slider-modify-button-width;
+                            font-size: $icon-font-size;
+                            color: $light-icon;
+
+                            &:hover{
+                                cursor: pointer;
+                                color: $dark-icon;
+                            }
+                        }
+
+                        .input-value{
+                            margin: $light-margin;
+                            font-size: $slider-input-font-size;
+                        }
+
+                        .hor-scroll{
+                            min-height: $hor-scroll-height;
+                            min-width: 100%;
+                            padding: $regular-padding;
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            overflow-x: auto;
+
+                            .selectable{
+                                position: relative;
+                                min-width: $hor-scroll-height;
+                                height: $hor-scroll-height;
+                                background-size: cover;
+                                background-position: 50% 50%;
+                                margin-right: $light-margin;
+                                background-color: $dark-grey;
+
+                                &:hover{
+                                    cursor: pointer;
+                                }
+
+                                &.selected::after{
+                                    content: '\f00c';
+                                    position: absolute;
+                                    width: 100%;
+                                    height: 100%;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    color: $white;
+                                    background-color: $selected-image-color;
+                                    text-shadow: $regular-text-shadow;
+                                    font-family: FontAwesome;
+                                    font-weight: normal;
+                                    font-style: normal;
+                                    font-size: $selected-image-font-size;
+                                    text-decoration:none;
+                                    pointer-events: none;
+                                }
+                            }
+                        }
+
+                        .button{
+                            width: 90%;
+                            padding: $light-padding;
+                            font-size: $slider-input-font-size;
+                            background-color: $brand-color-dark;
+                            color: $white;
+                            border-radius: $light-border-radius;
+                            border: none;
+                            transition: $light-transition;
+
+                            &:hover{
+                                cursor: pointer;
+                                box-shadow: $light-box-shadow;
+                                background-color: $brand-color;
+                            }
+
+                            &:active{
+                                box-shadow: none;
+                            }
+                        }
+                    }
+
+                    .input-example{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-end;
+
+                        .message{
+                            position: relative;
+                            width: fit-content;
+                            min-height: fit-content;
+                            max-width: 100%;
+                            display: flex;
+                            flex-direction: column;
+                            background-color: $white;
+                            padding: $regular-padding;
+                            box-shadow: $message-shadow;
+                            margin-bottom: $light-margin;
+                            border-radius: $light-border-radius;
+
+                            .text{
+                                font-size: $message-text-font-size-desktop;
+        
+                                @media #{$mobile}{
+                                    font-size: $message-text-font-size-mobile;
+                                }
+                            }
+        
+                            .timestamp{
+                                font-size: $message-timestamp-font-size-desktop;
+                                color: $text-light;
+        
+                                @media #{$mobile}{
+                                    font-size: $message-timestamp-font-size-mobile;
+                                }
+        
+                                &.read{
+                                    color: $message-read-text-color;
+                                }
+                            }
+
+                            &.local{
+                                align-self: flex-end;
+                                border-color: inherit;
+    
+                                &::before {
+                                    content: '';
+                                    position: absolute;
+                                    width: 0;
+                                    height: 0;
+                                    right: -9px;
+                                    top: 0px;
+                                    border: 5px solid;
+                                    border-left-color: inherit;
+                                    border-top-color: inherit;
+                                    border-right-color: transparent;
+                                    border-bottom-color: transparent;
+                                }
+            
+                                .timestamp{
+                                    align-self: flex-end;
+            
+                                    .check{
+                                        margin-left: $regular-margin;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .signout-row{
+                    position: sticky;
+                    top: 100%;
+                    bottom: 0px;
+                    width: 100%;
+                    min-height: $chat-input-height;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: $brand-color-dark;
+                    color: $white;
+
+                    @media #{$mobile}{   
+                        min-height: $chat-input-height-mobile;
+                    }
+
+                    &:hover{
+                        cursor: pointer;
+                        background-color: $brand-color;
+                    }
+
+                    .title{
+                        font-size: $slider-input-font-size;
+                        margin-right: $regular-margin;
+                    }
+                }
+            }
+        }
+    }
+
+    .chat-wrapper{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: $chat-wrapper-desktop-width;
+
+        @media #{$tablet}{   
+            width: $chat-wrapper-tablet-width;
+        }
+
+        @media #{$mobile}{   
+            width: 100%;
+            height: 100%;
+            left: 100%;
+
+            transition: $regular-transtition;
+
+            &.visible{
+                left: 0%;
+            }
+        }
+
+        .chat-header{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            min-height: $chat-header-height;
+            background-color: $light-grey;
+            border-bottom: $light-border;
+            padding: $regular-padding;
+            
+            .hide-chat{
+                display: none;
+                color: $light-icon;
+                font-size: $icon-font-size;
+
+                @media #{$mobile}{
+                    display: block;
+                }
+
+                &:hover{
+                    color: $dark-icon;
+                    cursor: pointer;
+                }
+            }
+
+            .receiver-picture{
+                height: $user-item-picture-height;
+                width: $user-item-picture-width;
+                background-size: cover;
+                background-position: 50% 50%;
+                border-radius: $user-item-picture-width;
+            }
+
+            .receiver-body{
+                display: flex;
+                flex-direction: column;
+                margin-left: $strong-margin;
+
+                .receiver-name{
+                    font-weight: 600;
+                }
+
+                .receiver-last-connection{
+                    text-transform: capitalize;
+                }
+            }
+
+            .expand-settings{
+                position: absolute;
+                right: 0px;
+                margin-right: $strong-margin;
+                
+                .fas{
+                    font-size: $icon-font-size;
+                    color: $light-icon;
+
+                    &:hover{
+                        color: $dark-icon;
+                        cursor: pointer;
+                    }
+                }
+
+                .expanded-panel{
+                    position: absolute;
+                    right: 20px;
+                    top: 10px;
+                    width: 0px;
+                    height: 0px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: center;
+                    background-color: $light-grey;
+                    font-size: $settings-panel-font-size;
+                    border-radius: $light-border-radius;
+                    transition: $regular-transtition;
+                    overflow: hidden;
+                    z-index: 2;
+
+                    &.expanded{
+                        min-width: fit-content;
+                        padding: $strong-padding;
+                        height: fit-content;
+                        box-shadow: $light-box-shadow;
+                    }
+
+                    .item{
+                        width: 100%;
+                        white-space: nowrap;
+                        margin-top: $regular-margin;
+                        margin-bottom: $regular-margin;
+                        user-select: none;
+
+                        &:hover{
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+
+        .chat-body{
+            position: relative;
+            min-height: calc(100% - #{$chat-header-height} - #{$chat-input-height});
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow-y: auto;
+
+            @media #{$mobile}{
+                min-height: calc(100% - #{$chat-header-height} - #{$chat-input-height-mobile});
+            }
+
+            .chat{
+                display: flex;
+                height: fit-content;
+                flex-direction: column;
+                padding: $stronger-padding;
+
+                .date-separator{
+                    background-color: $light-grey;
+                    margin-bottom: $strong-margin;
+                    margin-top: $strong-margin;
+                    padding: $regular-margin;
+                    border-radius: $light-border-radius;
+                    box-shadow: $message-shadow;
+                    text-align: center;
+                }
+
+                .message{
+                    position: relative;
+                    width: fit-content;
+                    min-height: fit-content;
+                    max-width: 70%;
+                    display: flex;
+                    flex-direction: column;
+                    background-color: $white;
+                    padding: $regular-padding;
+                    box-shadow: $message-shadow;
+                    margin-bottom: $light-margin;
+                    border-radius: $light-border-radius;
+
+                    .image{
+                        position: relative;
+                        width: fit-content;
+                        max-width: 300px;
+                        min-height: 50px;
+                        min-width: 150px;
+
+                        &::before {  
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            width: 100%;
+                            height: 100%;
+                            background-color: $dark-grey;
+                            border-radius: $light-border-radius;
+                        }
+                          
+                        &::after     {  
+                            content: 'Broken Image';
+                            position: absolute;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-style: normal;
+                            width: 100%;
+                            height: 100%;
+                            top: 0px;
+                            text-align: center;
+                        }
+                    }
+
+                    .text{
+                        font-size: $message-text-font-size-desktop;
+
+                        @media #{$mobile}{
+                            font-size: $message-text-font-size-mobile;
+                        }
+                    }
+
+                    .link{
+                        position: relative;
+                        word-break: break-all;
+                    }
+
+                    .timestamp{
+                        font-size: $message-timestamp-font-size-desktop;
+                        color: $text-light;
+
+                        @media #{$mobile}{
+                            font-size: $message-timestamp-font-size-mobile;
+                        }
+
+                        &.read{
+                            color: $message-read-text-color;
+                        }
+                    }
+
+                    &.foreign{
+                        background-color: $foreign-message-color;
+    
+                        &::before {
+                            content: '';
+                            position: absolute;
+                            width: 0;
+                            height: 0;
+                            left: -9px;
+                            top: 0px;
+                            border: 5px solid;
+                            border-color: $foreign-message-color $foreign-message-color transparent transparent;
+                        }
+    
+                        .timestamp{
+                            align-self: flex-start;
+    
+                            .check{
+                                display: none;
+                            }
+                        }
+                    }
+    
+                    &.local{
+                        align-self: flex-end;
+                        background-color: $local-message-color;
+                        border-color: inherit;
+    
+                        &::before {
+                            content: '';
+                            position: absolute;
+                            width: 0;
+                            height: 0;
+                            right: -9px;
+                            top: 0px;
+                            border: 5px solid;
+                            border-left-color: inherit;
+                            border-top-color: inherit;
+                            border-right-color: transparent;
+                            border-bottom-color: transparent;
+                        }
+    
+                        .timestamp{
+                            align-self: flex-end;
+    
+                            .check{
+                                margin-left: $regular-margin;
+                            }
+                        }
+                    }
+                }
+
+                
+            }
+
+            .splash-screen{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                .app-name{
+                    font-size: $splash-name-font-size;
+                    color: $brand-color;
+                    font-weight: 600;
+                }
+
+                .app-logo{
+                    background-image: url(../assets/splash.png);
+                    height: $splash-logo-height;
+                    width: $splash-logo-width;
+                    background-size: cover;
+                }
+            }
+        }
+
+        .chat-input{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            min-height: $chat-input-height;
+            background-color: $light-grey;
+            border-top: $light-border;
+            padding: $regular-padding;
+            border-left: $light-border;
+            
+            @media #{$mobile}{
+                min-height: $chat-input-height-mobile;
+            }
+
+            .textbox{
+                position: relative;
+                width: calc(100% - #{$action-button-width} - (#{$regular-padding} * 2) - 20px);
+                height: $action-button-width;
+                padding: $strong-padding;
+                font-size: $chat-textbox-font-size;
+                border-radius: $regular-border-radius;
+                border:none;
+                outline: none;
+
+                @media #{$mobile}{
+                    height: $action-button-height-mobile;
+                }
+
+                &:focus{
+                    box-shadow: inset $light-box-shadow;
+                }
+            }
+
+            .action-button{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: $action-button-width;
+                height: $action-button-height;
+                border-radius: $action-button-width;
+                border: none;
+                background-color: $brand-color;
+                color: $white;
+                font-size: $chat-action-button-font-size;
+                transition: $light-transition;
+                outline: none;
+
+                @media #{$mobile}{
+                    width: $action-button-width-mobile;
+                    height: $action-button-height-mobile;
+                }
+
+                &:hover{
+                    cursor: pointer;
+                    box-shadow: $light-box-shadow;
+                }
+
+                &:active{
+                  transform: scale(.95);
+                  box-shadow: none;
+                }
+
+                &:focus{
+                    box-shadow: $light-box-shadow;
+                }
+            }
+        }
+    }
+}
+
+.log-panel{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media #{$mobile}{
+        align-items: flex-start;
+        overflow-y: scroll;
+        padding: $strong-padding;
+    }
+
+    .background-image{
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: 50% 50%;
+        background-image: url(https://wallpaperscraft.com/image/giau_pass_italy_alps_118374_3840x2400.jpg);
+        z-index: -1;
+    }
+
+    .brand-line{
+        position: absolute;
+        top: 0px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: $strong-margin;
+
+        @media #{$mobile}{
+            display: none;
+        }
+
+        .app-logo{
+            background-image: url(../assets/splash.png);
+            height: $splash-logo-height;
+            width: $splash-logo-width;
+            background-size: cover;
+        }
+
+        .app-name{
+            font-size: $brand-line-font-size;
+            color: $brand-color;
+            margin-left: $strong-margin;
+        }
+    }
+
+    .log-table{
+        width: $log-panel-width-desktop;
+        box-shadow: $light-box-shadow;
+        border-radius: $light-border-radius;
+        overflow: hidden;
+
+
+        .log-selector-row{
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            background-color: $brand-color-dark;
+            overflow: hidden;
+    
+            .log-selector{
+                width: 50%;
+                height: $log-selector-height;
+                font-size: $log-selector-font-size;
+                background-color: transparent;
+                color: $white;
+                font-weight: 600;
+                border: none;
+                outline: none;
+
+
+                &:hover{
+                    cursor: pointer;
+                }
+
+                &.selected{
+                    background-color: $light-grey;
+                    color: $brand-color;
+                    box-shadow: $light-box-shadow;
+                    z-index: 1;
+                }
+            }
+        }
+
+        .log-wrapper{
+            position: relative;
+            width: 100%;
+            height: fit-content;
+            background-color: $light-grey;
+            box-shadow: $light-box-shadow;
+
+
+            .log{
+                position: relative;
+                width: 100%;
+                
+                display: none;
+                flex-direction: column;
+                justify-content: flex-start;
+                padding: $strong-padding;
+                overflow-y: auto;
+
+                &.visible{
+                    display: flex;
+                }
+
+                .row{
+                    width: 100%;
+                    margin-bottom: $strong-margin;
+
+                    .label{
+                        color: $brand-color;
+                        font-size: $log-label-font-size;
+                    }
+                    
+                    .textbox{
+                        height: 30px;
+                        width: 100%;
+                        background-color: $dark-grey;
+                        border: none;
+                        padding: $light-padding;
+                        outline: none;
+                        font-size: $log-label-font-size;
+                        box-shadow: inset $lighter-box-shadow;
+                    }
+    
+                    .tip{
+                        font-size: $log-tip-font-size;
+                        color: $text-light;
+                    }
+                }
+
+                .action-button{
+                    width: 100%;
+                    height: 40px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    color: $white;
+                    background-color: $brand-color;
+                    border: none;
+                    font-size: $log-label-font-size;
+                    box-shadow: $lighter-box-shadow;
+                    border-radius: $light-border-radius;
+
+                    &:hover{
+                        cursor: pointer;
+                        box-shadow: $light-box-shadow;
+                    }
+
+                    .title{
+                        margin-right: $regular-margin;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*Scrollbars*/
+
+.scrollbar::-webkit-scrollbar-track
+{
+	background-color: transparent;
+}
+
+.scrollbar::-webkit-scrollbar
+{
+    width: 5px;
+    height: 5px;
+	background-color: transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb
+{
+	background-color: $scrollbar-color;
+}

@@ -1,0 +1,266 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" href="assets/favicon.png" />
+  <title>Socialine</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="app-wrapper">
+    <div id="app">
+      <div class="background-image" v-if="client != null && client.backgroundImageUrl" v-bind:style="{'background-image': 'url(' + client.backgroundImageUrl + ')'}"></div>
+      <div class="main-panel" v-if="client != null">
+        <div class="sidebar">
+          <div class="sidebar-header">
+            <div class="item">
+              <div class="client-picture" v-bind:style="{'background-image': 'url(' + client.pictureUrl + ')'}"></div>
+              <div class="client-body">
+                <div class="client-name">{{client.name}}</div>
+                <div class="client-about">{{client.about}}</div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="client-modify" v-on:click="toggleSlidingPanel('sliding-panel')">
+                <i class="fas fa-bars"></i>
+              </div>
+            </div>
+          </div>
+          <div class="sidebar-body">
+            <div class="user-list scrollbar">
+              <div class="user-item" v-for="user in users" v-if="user._id != client._id && kmBetweenLocations(client.latitude, user.latitude, client.longitude, user.longitude) < client.maxKmDistance && kmBetweenLocations(client.latitude, user.latitude, client.longitude, user.longitude) < user.maxKmDistance && !client.blockedUsers.includes(user._id)"
+                v-on:click="selectUser(user)" v-bind:class="[user._id == selectedUser._id ? 'selected': '']">
+                <div class="user-picture" v-bind:style="{'background-image' : 'url(' + user.pictureUrl +')'}"></div>
+                <div class="user-body">
+                  <div class="user-name">{{user.name}}</div>
+                  <div class="user-about">{{user.about}}</div>
+                </div>
+                <div class="user-modifiers">
+                  <div class="user-favorite" v-show="client.favoriteUsers.includes(user._id)">
+                    <i class="fas fa-heart"></i>
+                  </div>
+                </div>
+                <div class="user-new-message" v-if="clientMessages.find(message => {return message.receiver == client._id && message.sender == user._id && !message.readByReceiver })">{{clientMessages.filter(message => {return message.receiver == client._id && message.sender == user._id &&
+                  !message.readByReceiver }).length}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="sliding-panel">
+            <div class="sliding-header">
+              <div class="panel-title">Settings</div>
+              <div class="close-panel" v-on:click="toggleSlidingPanel('sliding-panel'); saveClientUser();">
+                <i class="fas fa-save"></i>
+              </div>
+            </div>
+            <div class="sliding-body scrollbar">
+              <div class="client-picture" v-bind:style="{'background-image': 'url(' + client.pictureUrl + ')'}"></div>
+              <div class="input-wrapper">
+                <div class="input-title">Image</div>
+                <div class="input-row">
+                  <input class="textbox" type="text" name="" id="sliderImageInput" v-model="client.pictureUrl" maxlength="300">
+                </div>
+                <!--div class="input-row">
+                  <input type="file" name="" id="">
+                </div-->
+              </div>
+              <div class="input-wrapper">
+                <div class="input-title">Name</div>
+                <div class="input-row">
+                  <input class="textbox" type="text" name="" id="sliderNameInput" v-model="client.name" maxlength="20">
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="input-title">About</div>
+                <div class="input-row">
+                  <input class="textbox" type="text" name="" id="sliderAboutInput" v-model="client.about" maxlength="30">
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="input-title">Max distance</div>
+                <div class="input-row">
+                  <input class="textbox" type="range" name="" id="sliderMaxDistanceInput" v-model="client.maxKmDistance" min="1" max="50">
+                  <div class="input-value">
+                    {{client.maxKmDistance}}Km
+                  </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="input-title">Background Image</div>
+                <div class="input-row">
+                  <div class="hor-scroll scrollbar">
+                    <div class="selectable image" v-on:click="selectBackgroundImage(event)"></div>
+                    <div class="selectable image" v-on:click="selectBackgroundImage(event)"></div>
+                    <div class="selectable image" v-on:click="selectBackgroundImage(event)"></div>
+                    <div class="selectable image" v-on:click="selectBackgroundImage(event)"></div>
+                    <div class="selectable image" v-on:click="selectBackgroundImage(event)"></div>
+                    <div class="selectable image" v-on:click="selectBackgroundImage(event)"></div>
+                    <div class="selectable image" v-on:click="selectBackgroundImage(event)"></div>
+                    <div class="selectable image" v-on:click="selectBackgroundImage(event)"></div>
+                    <div class="selectable image" v-on:click="selectBackgroundImage(event)"></div>
+                    <div class="selectable image" v-on:click="selectBackgroundImage(event)"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="input-title">Message Color</div>
+                <div class="input-example">
+                  <div class="message local" v-bind:style="{ 'background-color': client.localMessageColor, 'border-color': client.localMessageColor}">
+                    <div class="text">Hey there! I'm changing my settings!</div>
+                    <div class="timestamp">
+                      12:07 PM
+                      <span class="check">
+                        <span>
+                          <i class="fas fa-check"></i>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="input-row">
+                  <div class="hor-scroll scrollbar">
+                    <div class="selectable color" v-on:click="selectMessageColor(event)" data-color="#ffcac9" style="background-color: #ffcac9;"></div>
+                    <div class="selectable color" v-on:click="selectMessageColor(event)" data-color="lightblue" style="background-color: lightblue"></div>
+                    <div class="selectable color" v-on:click="selectMessageColor(event)" data-color="lightgreen" style="background-color: lightgreen"></div>
+                    <div class="selectable color" v-on:click="selectMessageColor(event)" data-color="#ffb74d" style="background-color: #ffb74d"></div>
+                    <div class="selectable color" v-on:click="selectMessageColor(event)" data-color="#e1bee7" style="background-color: #e1bee7"></div>
+                    <div class="selectable color" v-on:click="selectMessageColor(event)" data-color="lightgoldenrodyellow" style="background-color: lightgoldenrodyellow"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="input-title">Unblock Users</div>
+                <div class="input-row">
+                  <button class="button" v-on:click="unblockAllUsers">Unblock ALL Users</button>
+                </div>
+              </div>
+              <div class="signout-row" v-on:click="signOut">
+                <div class="title">Sign Out</div>
+                <i class="fas fa-sign-out-alt"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-wrapper">
+          <div class="chat-header">
+            <div class="hide-chat" v-on:click="hideChat">
+              <i class="fas fa-angle-left"></i>
+            </div>
+            <div class="receiver-picture" v-bind:style="{ 'background-image': 'url(' + selectedUser.pictureUrl + ')' }"></div>
+            <div class="receiver-body">
+              <div class="receiver-name">{{selectedUser.name}}</div>
+              <div class="receiver-last-connection" v-if="selectedUser.lastConnection == 'online'">{{selectedUser.lastConnection}}</div>
+              <div class="receiver-last-connection" v-else-if="selectedUser.lastConnection != ''">{{selectedUser.lastConnection | momentLastConnection}}</div>
+            </div>
+            <div class="expand-settings" v-on:click="expandPanel('receiverSettingsPanel')" v-show="selectedUser._id != null">
+              <i class="fas fa-ellipsis-v"></i>
+              <div id="receiverSettingsPanel" class="expanded-panel">
+                <div class="item" v-show="!client.favoriteUsers.includes(selectedUser._id)" v-on:click="toggleFavoriteUser(selectedUser._id)">Add to Favorites</div>
+                <div class="item" v-show="client.favoriteUsers.includes(selectedUser._id)" v-on:click="toggleFavoriteUser(selectedUser._id)">Remove from Favorites</div>
+                <div class="item" v-on:click="toggleBlockUser(selectedUser._id)">Block user</div>
+              </div>
+            </div>
+          </div>
+          <div class="chat-body scrollbar">
+            <div class="chat">
+              <div class="message" v-for="(message, index) in clientMessages.slice().reverse()" v-if="message.sender == selectedUser._id && message.receiver == client._id || message.sender == client._id && message.receiver == selectedUser._id"
+                v-bind:class="[message.sender == client._id ? 'local': 'foreign']" v-bind:style="{ 'background-color': message.sender == client._id ? client.localMessageColor : null, 'border-color': message.sender == client._id ? client.localMessageColor : null  }">
+                <a class="link" v-if="isUrl(message.text) && isImageUrl(message.text)" :href="message.text" target="_blank">
+                  <img class="image" :src="message.text"></img>
+                </a>
+                <a class="link" v-if="isUrl(message.text) && !isImageUrl(message.text)" :href="message.text" target="_blank">{{message.text}}</a>
+                <div class="text" v-else-if="!isImageUrl(message.text)">{{message.text}}</div>
+                <div class="timestamp">
+                  {{message.timestamp | momentTimestamp}}
+                  <span class="check">
+                    <span v-if="message.readByReceiver">
+                      <i class="fas fa-check"></i>
+                    </span>
+                    <span v-else>
+                      <i class="far fa-clock"></i>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="splash-screen" v-if="selectedUser._id == undefined">
+              <div class="app-name">Socialine</div>
+              <div class="app-logo"></div>
+            </div>
+          </div>
+          <div class="chat-input">
+            <input class="textbox" v-model.trim="messageInput" v-on:keydown.enter="sendMessage" v-on:focus="scrollChatBody" :disabled="selectedUser._id == undefined"
+              type="text" name="" id="messageInput" :placeholder="selectedUser._id == undefined ? 'Select a contact first...' : 'Write your message here...'">
+            <button class="action-button" v-on:click="sendMessage" :disabled="selectedUser._id == undefined">
+              <span>
+                <i class="fas fa-arrow-alt-circle-right"></i>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="log-panel" v-if="client == null">
+        <div class="background-image"></div>
+        <div class="brand-line">
+          <div class="app-logo"></div>
+          <div class="app-name">Socialine</div>
+        </div>
+        <div class="log-table">
+          <div class="log-selector-row">
+            <button class="log-selector" v-bind:class="[selectedLogSelector == 'loginLog' ? 'selected': '']" v-on:click="selectedLogSelector = 'loginLog'">Log in</button>
+            <button class="log-selector" v-bind:class="[selectedLogSelector == 'signupLog' ? 'selected': '']" v-on:click="selectedLogSelector = 'signupLog'">Sign up</button>
+          </div>
+          <div class="log-wrapper">
+            <div id="loginLog" class="log login" v-bind:class="[selectedLogSelector == 'loginLog' ? 'visible': '']">
+              <div class="row">
+                <div class="label">Username</div>
+                <input type="text" name="" id="loginUsername" v-model.trim="loginUsername" class="textbox">
+              </div>
+              <div class="row">
+                <div class="label">Password</div>
+                <input type="password" name="" id="loginPassword" v-model.trim="loginPassword" class="textbox">
+              </div>
+              <button class="action-button" v-on:click="login">
+                <div class="title">Log In</div>
+                <i class="fas fa-sign-in-alt"></i>
+              </button>
+            </div>
+            <div id="signupLog" class="log signup" v-bind:class="[selectedLogSelector == 'signupLog' ? 'visible': '']">
+              <div class="row">
+                <div class="label">Username</div>
+                <input type="text" name="" id="signupUsername" v-model.trim="signupUsername" class="textbox">
+                <div class="tip">This is the name of your account, you will use it to sign in. Nobody will see it.</div>
+              </div>
+              <div class="row">
+                <div class="label">Password</div>
+                <input type="password" name="" id="signupPassword" v-model.trim="signupPassword" class="textbox">
+              </div>
+              <div class="row">
+                <div class="label">Confirm password</div>
+                <input type="password" name="" id="signupConfirmPassword" v-model.trim="signupConfirmPassword" class="textbox">
+              </div>
+              <div class="row">
+                <div class="label">Name</div>
+                <input type="text" name="" id="signupName" v-model.trim="signupName" class="textbox">
+                <div class="tip">This is the name other users will see. You can always change it.</div>
+              </div>
+              <button class="action-button" v-on:click="signUp">
+                <div class="title">Sign up</div>
+                <i class="fas fa-sign-in-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
+<link href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" rel="stylesheet">
+<script src="client.js"></script>
+</html>
