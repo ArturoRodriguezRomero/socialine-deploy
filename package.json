@@ -38,7 +38,9 @@
     "feathers-nedb": "^2.7.0",
     "helmet": "^3.9.0",
     "nedb": "^1.8.0",
+    "node-gyp": "^3.6.2",
     "serve-favicon": "^2.4.5",
+    "socket.io": "^2.0.4",
     "vue": "^2.5.13",
     "winston": "^2.4.0"
   },
